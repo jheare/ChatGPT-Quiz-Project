@@ -14,7 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.254/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/spaCy/3.0.4/spacy.min.js"></script>
     <script>
-      // Event listener for the "Generate Quiz" button
+       // Event listener for the "Generate Quiz" button
       document.getElementById("generate-quiz-button").addEventListener("click", () => {
         // Get the PDF file from the input element
         const pdfFile = document.getElementById("pdf-file").files[0];
@@ -33,7 +33,7 @@
       });
       
       // Function to generate quiz questions from the text
-      function generateQuizQuestions(text)  {
+      async function generateQuizQuestions(text) {
         // Load the English model for spaCy
         const spacy = await spacy.load("en_core_web_sm");
         
@@ -58,7 +58,8 @@
             });
           }
         }
-         
+        
+
 // Function to display the quiz questions on the website
 function displayQuizQuestions(quizQuestions) {
   // Clear the quiz container
