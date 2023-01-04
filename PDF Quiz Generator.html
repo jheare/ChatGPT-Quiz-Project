@@ -129,7 +129,9 @@ function displayQuizQuestions(quizQuestions) {
     // Create a div to hold the options
     const optionsDiv = document.createElement("div");
     document.getElementById("quiz-container").appendChild(optionsDiv);
-    
+   
+    const quizOptions = generateQuizOptions(["Option 1", "Option 2", "Option 3"]);
+
     // Create radio buttons for each option
     quizQuestion.options.forEach((option) => {
       const optionLabel = document.createElement("label");
