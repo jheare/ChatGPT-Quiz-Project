@@ -101,9 +101,20 @@ async function generateQuizQuestions(text) {
   }
     // Call the displayQuizQuestions function and pass it the quizQuestions array
   displayQuizQuestions(quizQuestions);
-}
-      
-// Function to display the quiz questions on the website
+  
+  function generateQuizOptions(options) {
+  // Choose a random index from the options array as the correct answer
+  const correctAnswerIndex = Math.floor(Math.random() * options.length);
+  const correctAnswer = options[correctAnswerIndex];
+
+  // Return the options and correct answer as an object
+  return {
+    options: options,
+    correctAnswer: correctAnswer
+  };
+}  
+
+  // Function to display the quiz questions on the website
 function displayQuizQuestions(quizQuestions) {
   // Clear the quiz container
   document.getElementById("quiz-container").innerHTML = "";
