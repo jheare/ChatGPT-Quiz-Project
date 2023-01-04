@@ -32,7 +32,7 @@
         });
       });
  // Load the English model for spaCy
-  const spacy = await spacy.load("en_core_web_sm");
+ spaCy.load("en_core_web_sm");
       
  // Function to determine if a sentence is a question
 async function isQuestion(sentence) {
@@ -71,11 +71,11 @@ async function extractOptions(sentence) {
       options.push(doc.sents[0].tokens[i].text);
     }
   }
-
   // Return the options array
   return options;
 }
-// Function to generate quiz questions from the text
+
+      // Function to generate quiz questions from the text
 async function generateQuizQuestions(text) {
 
   // Parse the text using spaCy
