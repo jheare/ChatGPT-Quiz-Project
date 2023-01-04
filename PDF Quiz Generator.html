@@ -31,6 +31,16 @@
           });
         });
       });
+ // Function to determine if a sentence is a question    
+      function isQuestion(sentence) {
+  // Check if the sentence ends with a question mark
+  return sentence.text.endsWith("?");
+}
+   // Function to extract the question from a sentence
+function extractQuestion(sentence) {
+  // Return the text of the sentence, excluding the question mark at the end
+  return sentence.text.slice(0, -1);
+}
       
       // Function to generate quiz questions from the text
       async function generateQuizQuestions(text) {
