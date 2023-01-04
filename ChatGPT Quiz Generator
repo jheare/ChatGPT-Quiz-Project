@@ -34,18 +34,52 @@
     
     // Function to parse the ChatGPT response and extract the question
     function extractQuestionFromResponse(response) {
-      // TODO: Write code to extract the question from the response
-    }
+  // Split the response into lines
+  const lines = response.split("\n");
+  
+  // The question is the first line of the response
+  const question = lines[0];
+  
+  return question;}
     
     // Function to parse the ChatGPT response and extract the options
     function extractOptionsFromResponse(response) {
-      // TODO: Write code to extract the options from the response
-    }
+  // Split the response into lines
+  const lines = response.split("\n");
+  
+  // The options are the second, third, fourth, and fifth lines of the response
+  const options = [lines[1], lines[2], lines[3], lines[4]];
+  
+  return options;}
     
     // Function to display the question and options on the website
     function displayQuestion(question, options) {
-      // TODO: Write code to display the question and options on the website
-    }
+  // Clear the quiz container
+  document.getElementById("quiz-container").innerHTML = "";
+  
+  // Create a div to hold the question
+  const questionDiv = document.createElement("div");
+  questionDiv.innerHTML = question;
+  document.getElementById("quiz-container").appendChild(questionDiv);
+  
+  // Create a div to hold the options
+  const optionsDiv = document.createElement("div");
+  document.getElementById("quiz-container").appendChild(optionsDiv);
+  
+  // Create radio buttons for each option
+  options.forEach((option) => {
+    const optionLabel = document.createElement("label");
+    optionLabel.innerHTML = option;
+    
+    const optionInput = document.createElement("input");
+    optionInput.type = "radio";
+    optionInput.name = "options";
+    optionInput.value = option;
+    
+    optionsDiv.appendChild(optionInput);
+    optionsDiv.appendChild(optionLabel);
+  });
+}
     
     // Event listener for the "Next Question" button
     document.getElementById("next-question-button").addEventListener("click", getNextQuestion);
