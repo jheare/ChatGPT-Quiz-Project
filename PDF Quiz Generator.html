@@ -54,6 +54,73 @@
       });
     }
   }
+          // Display the quiz questions on the website
+  displayQuizQuestions(quizQuestions);
+}
+
+// Function to check if a line of text is a question
+function isQuestion(line) {
+  // Check if the line starts with "What" or "Which"
+  if (line.startsWith("What") || line.startsWith("Which")) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// Function to extract the question from a line of text
+function extractQuestion(line) {
+  // Split the line into words
+  const words = line.split(" ");
+  
+  // The question is everything after the first word
+  const question = words.slice(1).join(" ");
+  
+  return question;
+}
+
+// Function to extract the options from a line of text
+function extractOptions(line) {
+  // Split the line into words
+  const words = line.split(" ");
+  
+  // The options are the first four words
+  const options = words.slice(0, 4);
+  
+  return options;
+}
+
+// Function to display the quiz questions on the website
+function displayQuizQuestions(quizQuestions) {
+  // Clear the quiz container
+  document.getElementById("quiz-container").innerHTML = "";
+  
+  // Iterate through the quiz questions
+  quizQuestions.forEach((quizQuestion) => {
+    // Create a div to hold the question
+    const questionDiv = document.createElement("div");
+    questionDiv.innerHTML = quizQuestion.question;
+    document.getElementById("quiz-container").appendChild(questionDiv);
+    
+    // Create a div to hold the options
+    const optionsDiv = document.createElement("div");
+    document.getElementById("quiz-container").appendChild(optionsDiv);
+    
+    // Create radio buttons for each option
+    quizQuestion.options.forEach((option) => {
+      const optionLabel = document.createElement("label");
+      optionLabel.innerHTML = option;
+      
+      const optionInput = document.createElement("input");
+      optionInput.type = "radio";
+      optionInput.name = "options";
+      optionInput.value = option;
+      
+      optionsDiv.appendChild(optionInput);
+      optionsDiv.appendChild(optionLabel);
+    });
+  });
+}
     </script>
   </body>
 </html>
