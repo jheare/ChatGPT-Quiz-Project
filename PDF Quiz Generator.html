@@ -41,7 +41,17 @@ function extractQuestion(sentence) {
   // Return the text of the sentence, excluding the question mark at the end
   return sentence.text.slice(0, -1);
 }
-      
+ // Function to determine if a sentence is a question
+async function isQuestion(sentence) {
+  // Load the English model for spaCy
+  const spacy = await spacy.load("en_core_web_sm");
+
+  // Parse the sentence using spaCy
+  const doc = spacy(sentence.text);
+
+  // Check if the sentence is a question by checking its dependency parse
+  return doc.sents[0].root.dep_ === "ROOT" && doc.sents[0].root.head.dep_ === "punct" && doc.sents[0].root.head.text === "?";
+}     
       // Function to generate quiz questions from the text
       async function generateQuizQuestions(text) {
         // Load the English model for spaCy
