@@ -12,6 +12,7 @@
       <!-- This div will contain the quiz questions and answers -->
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.254/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spaCy/3.0.4/spacy.min.js"></script>
     <script>
       // Event listener for the "Generate Quiz" button
       document.getElementById("generate-quiz-button").addEventListener("click", () => {
@@ -32,64 +33,32 @@
       });
       
       // Function to generate quiz questions from the text
-      function generateQuizQuestions(text) {
-  // Split the text into lines
-  const lines = text.split("\n");
-  
-  // Initialize an array to store the quiz questions
-  const quizQuestions = [];
-  
-  // Iterate through the lines of text
-  for (let i = 0; i < lines.length; i++) {
-    // Check if the line is a question
-    if (isQuestion(lines[i])) {
-      // If the line is a question, extract the question and options
-      const question = extractQuestion(lines[i]);
-      const options = extractOptions(lines[i + 1]);
-      
-      // Add the question and options to the quizQuestions array
-      quizQuestions.push({
-        question: question,
-        options: options
-      });
-    }
-  }
-          // Display the quiz questions on the website
-  displayQuizQuestions(quizQuestions);
-}
-
-// Function to check if a line of text is a question
-function isQuestion(line) {
-  // Check if the line starts with "What" or "Which"
-  if (line.startsWith("What") || line.startsWith("Which")) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-// Function to extract the question from a line of text
-function extractQuestion(line) {
-  // Split the line into words
-  const words = line.split(" ");
-  
-  // The question is everything after the first word
-  const question = words.slice(1).join(" ");
-  
-  return question;
-}
-
-// Function to extract the options from a line of text
-function extractOptions(line) {
-  // Split the line into words
-  const words = line.split(" ");
-  
-  // The options are the first four words
-  const options = words.slice(0, 4);
-  
-  return options;
-}
-
+      function generateQuizQuestions(text)  {
+        // Load the English model for spaCy
+        const spacy = await spacy.load("en_core_web_sm");
+        
+        // Parse the text using spaCy
+        const doc = spacy(text);
+        
+        // Initialize an array to store the quiz questions
+        const quizQuestions = [];
+        
+        // Iterate through the sentences in the doc
+        for (let i = 0; i < doc.sents.length; i++) {
+          // Check if the sentence is a question
+          if (isQuestion(doc.sents[i])) {
+            // If the sentence is a question, extract the question and options
+            const question = extractQuestion(doc.sents[i]);
+            const options = extractOptions(doc.sents[i + 1]);
+            
+            // Add the question and options to the quizQuestions array
+            quizQuestions.push({
+              question: question,
+              options: options
+            });
+          }
+        }
+         
 // Function to display the quiz questions on the website
 function displayQuizQuestions(quizQuestions) {
   // Clear the quiz container
