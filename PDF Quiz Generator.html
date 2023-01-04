@@ -66,32 +66,33 @@ async function extractOptions(sentence) {
   // Return the options array
   return options;
 }
-      // Function to generate quiz questions from the text
-      async function generateQuizQuestions(text) {
-        // Load the English model for spaCy
-        const spacy = await spacy.load("en_core_web_sm");
-        
-        // Parse the text using spaCy
-        const doc = spacy(text);
-        
-        // Initialize an array to store the quiz questions
-        const quizQuestions = [];
-        
-        // Iterate through the sentences in the doc
-        for (let i = 0; i < doc.sents.length; i++) {
-          // Check if the sentence is a question
-          if (isQuestion(doc.sents[i])) {
-            // If the sentence is a question, extract the question and options
-            const question = extractQuestion(doc.sents[i]);
-            const options = extractOptions(doc.sents[i + 1]);
-            
-            // Add the question and options to the quizQuestions array
-            quizQuestions.push({
-              question: question,
-              options: options
-            });
-          }
-        }
+// Function to generate quiz questions from the text
+async function generateQuizQuestions(text) {
+  // Load the English model for spaCy
+  const spacy = await spacy.load("en_core_web_sm");
+
+  // Parse the text using spaCy
+  const doc = spacy(text);
+
+  // Initialize an array to store the quiz questions
+  const quizQuestions = [];
+
+  // Iterate through the sentences in the doc
+  for (let i = 0; i < doc.sents.length; i++) {
+    // Check if the sentence is a question
+    if (isQuestion(doc.sents[i])) {
+      // If the sentence is a question, extract the question and options
+      const question = extractQuestion(doc.sents[i]);
+      const options = extractOptions(doc.sents[i + 1]);
+
+      // Add the question and options to the quizQuestions array
+      quizQuestions.push({
+        question: question,
+        options: options
+      });
+    }
+  }
+
   // Call the displayQuizQuestions function and pass it the quizQuestions array
   displayQuizQuestions(quizQuestions);
 }
@@ -126,7 +127,6 @@ function displayQuizQuestions(quizQuestions) {
     });
   });
 }
- displayQuizQuestions(quizQuestions);
     </script>
   </body>
 </html>
