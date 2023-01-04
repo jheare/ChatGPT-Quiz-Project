@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quiz Generator</title>
+  </head>
+  <body>
+    <h1>Quiz Generator</h1>
+    <p>Welcome to the quiz generator! Select a PDF file to generate quiz questions from it:</p>
+    <input type="file" id="pdf-file" accept=".pdf">
+    <button id="generate-quiz-button">Generate Quiz</button>
+    <div id="quiz-container">
+      <!-- This div will contain the quiz questions and answers -->
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.254/pdf.min.js"></script>
+    <script>
+      // Event listener for the "Generate Quiz" button
+      document.getElementById("generate-quiz-button").addEventListener("click", () => {
+        // Get the PDF file from the input element
+        const pdfFile = document.getElementById("pdf-file").files[0];
+        
+        // Load the PDF file using pdf.js
+        const pdf = PDFJS.getDocument(pdfFile);
+        pdf.then((pdf) => {
+          // Once the PDF is loaded, extract the text from it
+          pdf.getPage(1).then((page) => {
+            page.getTextContent().then((textContent) => {
+              // Use the text from the PDF to generate quiz questions
+              generateQuizQuestions(textContent.items.map((item) => item.str).join("\n"));
+            });
+          });
+        });
+      });
+      
+      // Function to generate quiz questions from the text
+      function generateQuizQuestions(text) {
+  // Split the text into lines
+  const lines = text.split("\n");
+  
+  // Initialize an array to store the quiz questions
+  const quizQuestions = [];
+  
+  // Iterate through the lines of text
+  for (let i = 0; i < lines.length; i++) {
+    // Check if the line is a question
+    if (isQuestion(lines[i])) {
+      // If the line is a question, extract the question and options
+      const question = extractQuestion(lines[i]);
+      const options = extractOptions(lines[i + 1]);
+      
+      // Add the question and options to the quizQuestions array
+      quizQuestions.push({
+        question: question,
+        options: options
+      });
+    }
+  }
+    </script>
+  </body>
+</html>
