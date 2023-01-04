@@ -31,16 +31,7 @@
           });
         });
       });
- // Function to determine if a sentence is a question    
-      function isQuestion(sentence) {
-  // Check if the sentence ends with a question mark
-  return sentence.text.endsWith("?");
-}
-   // Function to extract the question from a sentence
-function extractQuestion(sentence) {
-  // Return the text of the sentence, excluding the question mark at the end
-  return sentence.text.slice(0, -1);
-}
+
  // Function to determine if a sentence is a question
 async function isQuestion(sentence) {
   // Load the English model for spaCy
@@ -51,7 +42,30 @@ async function isQuestion(sentence) {
 
   // Check if the sentence is a question by checking its dependency parse
   return doc.sents[0].root.dep_ === "ROOT" && doc.sents[0].root.head.dep_ === "punct" && doc.sents[0].root.head.text === "?";
-}     
+}  
+      // Function to extract the options from a sentence
+async function extractOptions(sentence) {
+  // Load the English model for spaCy
+  const spacy = await spacy.load("en_core_web_sm");
+
+  // Parse the sentence using spaCy
+  const doc = spacy(sentence.text);
+
+  // Initialize an array to store the options
+  const options = [];
+
+  // Iterate through the tokens in the sentence
+  for (let i = 0; i < doc.sents[0].tokens.length; i++) {
+    // Check if the token is a noun
+    if (doc.sents[0].tokens[i].pos_ === "NOUN") {
+      // If the token is a noun, add it to the options array
+      options.push(doc.sents[0].tokens[i].text);
+    }
+  }
+
+  // Return the options array
+  return options;
+}
       // Function to generate quiz questions from the text
       async function generateQuizQuestions(text) {
         // Load the English model for spaCy
@@ -78,7 +92,9 @@ async function isQuestion(sentence) {
             });
           }
         }
-  
+  // Call the displayQuizQuestions function and pass it the quizQuestions array
+  displayQuizQuestions(quizQuestions);
+}
 // Function to display the quiz questions on the website
 function displayQuizQuestions(quizQuestions) {
   // Clear the quiz container
