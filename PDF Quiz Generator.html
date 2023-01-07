@@ -32,7 +32,7 @@
         });
       });
  // Load the English model for spaCy
- spaCy.load("en_core_web_sm");
+ const spacy = spaCy.load("en_core_web_sm");
       
  // Function to determine if a sentence is a question
 async function isQuestion(sentence) {
@@ -101,7 +101,7 @@ async function generateQuizQuestions(text) {
   }
     // Call the displayQuizQuestions function and pass it the quizQuestions array
   displayQuizQuestions(quizQuestions);
-  
+} 
   function generateQuizOptions(options) {
   // Choose a random index from the options array as the correct answer
   const correctAnswerIndex = Math.floor(Math.random() * options.length);
