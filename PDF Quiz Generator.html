@@ -19,14 +19,15 @@
        () => {
         // Get the PDF file from the input element
         const pdfFile = document.getElementById("pdf-file").files[0];
-        
+  
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.2.146/build/pdf.worker.min.js';
 
         // Load the PDF file using pdf.js
-        const loadingTask = pdfjsLib.getDocument(pdfFile);
+        const loadingTask = pdfjsLib.getDocument({url: pdfFile,});
         (async () => {
-        const pdf = await loadingTask.promise;
-        pdf.then((pdf) => {
+          const pdf = await loadingTask.promise;
+        loadingTask.promise
+        .then(function(pdfDocument){ 
           // Once the PDF is loaded, extract the text from it
           pdf.getPage(1).then((page) => {
             page.getTextContent().then((textContent) => {
@@ -35,9 +36,13 @@
     item.str).join("\n"));
             });
           });
+        })
+        .catch(function (reason) {
+          console.error("Error: "+ reason);
         });
-      });
        });
+      });
+  
       
  // Function to determine if a sentence is a question
 async function isQuestion(sentence) {
