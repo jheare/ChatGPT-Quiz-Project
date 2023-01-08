@@ -11,32 +11,38 @@
     <div id="quiz-container">
       <!-- This div will contain the quiz questions and answers -->
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.254/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/spaCy/3.0.4/spacy.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.2.146/build/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/spacy-nlp@1.0.11/index.min.js"></script>
     <script>
        // Event listener for the "Generate Quiz" button
-      document.getElementById("generate-quiz-button").addEventListener("click", () => {
+      document.getElementById("generate-quiz-button").addEventListener("click",
+       () => {
         // Get the PDF file from the input element
         const pdfFile = document.getElementById("pdf-file").files[0];
         
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.2.146/build/pdf.worker.min.js';
+
         // Load the PDF file using pdf.js
-        const pdf = PDFJS.getDocument(pdfFile);
+        const loadingTask = pdfjsLib.getDocument(pdfFile);
+        (async () => {
+        const pdf = await loadingTask.promise;
         pdf.then((pdf) => {
           // Once the PDF is loaded, extract the text from it
           pdf.getPage(1).then((page) => {
             page.getTextContent().then((textContent) => {
               // Use the text from the PDF to generate quiz questions
-              generateQuizQuestions(textContent.items.map((item) => item.str).join("\n"));
+              generateQuizQuestions(textContent.items.map((item) => 
+    item.str).join("\n"));
             });
           });
         });
       });
- // Load the English model for spaCy
- const spacy = spaCy.load("en_core_web_sm");
+       });
       
  // Function to determine if a sentence is a question
 async function isQuestion(sentence) {
- 
+const spacy = await spacy.load("en_core_web_sm");
+ const nlp = spacy.load('en_core_web_sm');
   // Parse the sentence using spaCy
   const doc = spacy(sentence.text);
 
