@@ -6,7 +6,6 @@
   <body>
     <h1>Quiz Generator</h1>
     <p>Welcome to the quiz generator! Select a PDF file to generate quiz questions from it:</p>
-    <input type="file" id="pdf-file" accept=".pdf">
     <button id="generate-quiz-button">Generate Quiz</button>
     <div id="quiz-container">
       <!-- This div will contain the quiz questions and answers -->
@@ -18,12 +17,12 @@
       document.getElementById("generate-quiz-button").addEventListener("click",
        () => {
         // Get the PDF file from the input element
-        const pdfFile = document.getElementById("pdf-file").files[0];
+        const pdfFile = "https://cors-anywhere.herokuapp.com/https://github.com/jheare/ChatGPT-Quiz-Project/blob/main/B160week2.pdf";
   
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.2.146/build/pdf.worker.min.js';
 
         // Load the PDF file using pdf.js
-        const loadingTask = pdfjsLib.getDocument({url: pdfFile,});
+        const loadingTask = pdfjsLib.getDocument(pdfFile);
         (async () => {
           const pdf = await loadingTask.promise;
         loadingTask.promise
