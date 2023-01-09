@@ -6,6 +6,7 @@
   <body>
     <h1>Quiz Generator</h1>
     <p>Welcome to the quiz generator! Select a PDF file to generate quiz questions from it:</p>
+    <input type="url" id="pdf-file">
     <button id="generate-quiz-button">Generate Quiz</button>
     <div id="quiz-container">
       <!-- This div will contain the quiz questions and answers -->
@@ -17,7 +18,7 @@
       document.getElementById("generate-quiz-button").addEventListener("click",
        () => {
         // Get the PDF file from the input element
-        const pdfFile = "https://cors-anywhere.herokuapp.com/https://github.com/jheare/ChatGPT-Quiz-Project/blob/main/B160week2.pdf";
+        const pdfFile = "https://mozilla.github.io/pdf.js/web/viewer.html?file=https%3A%2F%2Fcors-anywhere.herokuapp.com%2Fhttps%3A%2F%2Fgithub.com%2Fjheare%2FChatGPT-Quiz-Project%2Fblob%2Fmain%2FB160week2.pdf";
   
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.2.146/build/pdf.worker.min.js';
 
@@ -40,29 +41,26 @@
           console.error("Error: "+ reason);
         });
        });
-      });
-  
-      
- // Function to determine if a sentence is a question
-async function isQuestion(sentence) {
-const spacy = await spacy.load("en_core_web_sm");
- const nlp = spacy.load('en_core_web_sm');
-  // Parse the sentence using spaCy
-  const doc = spacy(sentence.text);
+     // Function to determine if a sentence is a question
+        async function isQuestion(sentence) {
+          const spacy = await spacy.load("en_core_web_sm");
+          const nlp = spacy.load('en_core_web_sm');
+      // Parse the sentence using spaCy
+          const doc = spacy(sentence.text);
 
-  // Check if the sentence is a question by checking its dependency parse
-  return doc.sents[0].root.dep_ === "ROOT" && doc.sents[0].root.head.dep_ === "punct" && doc.sents[0].root.head.text === "?";
-}  
+      // Check if the sentence is a question by checking its dependency parse
+        return doc.sents[0].root.dep_ === "ROOT" && doc.sents[0].root.head.dep_ === "punct" && doc.sents[0].root.head.text === "?";
+        }  
       // Function to extract the question from a line of text
-function extractQuestion(line) {
-  // Split the line into words
-  const words = line.split(" ");
+      function extractQuestion(line) {
+      // Split the line into words
+      const words = line.split(" ");
   
-  // The question is everything after the first word
-  const question = words.slice(1).join(" ");
+      // The question is everything after the first word
+      const question = words.slice(1).join(" ");
   
-  return question;
-}
+      return question;
+      }
 
       // Function to extract the options from a sentence
 async function extractOptions(sentence) {
@@ -156,7 +154,8 @@ function displayQuizQuestions(quizQuestions) {
       optionsDiv.appendChild(optionLabel);
     });
   });
-}
+}});
+
     </script>
   </body>
 </html>
